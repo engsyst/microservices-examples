@@ -1,0 +1,45 @@
+@startuml
+!theme mars
+
+title Microservice Architecture of the Delivery Service\nComponent Diagram
+
+' Define components (services)
+component [Web Client] as webclient
+component [Api Gateway Service] as gateway
+component [Order Service] as orders
+component [Payment Service] as payments
+component [Restaurant Service] as restaurants
+component [Discovery Service] as eureka
+
+' Define databases
+database "Order DB\n(H2)" as orderDb
+database "Payment DB\n(H2)" as paymentDb
+database "Restaurant DB\n(H2)" as restaurantDb
+
+' Define relationships and dependencies
+
+' All microservices register with Eureka
+gateway -- (eureka) : registers/discovers
+orders -- (eureka) : registers/discovers
+payments -- (eureka) : registers/discovers
+restaurants -- (eureka) : registers/discovers
+
+' API Gateway routes requests to other services
+webclient --> gateway : "Calls services\n/**"
+gateway --> orders : "Routes requests to\n/orders/**"
+gateway --> restaurants : "Routes requests to\n/restaurants/**"
+gateway --> restaurants : "Routes requests to\n/menu/**"
+
+' Service-to-service communication
+orders --> restaurants : "Calls RestaurantService\nto get menu item prices"
+orders --> payments : "Calls OrderService\nto update order status"
+
+' Services interact with their respective databases
+orders --> orderDb : "Reads and writes"
+payments --> paymentDb : "Reads and writes"
+restaurants --> restaurantDb : "Reads and writes"
+
+note "All services are registered with and discover each other through Eureka." as EurekaNote
+eureka .. EurekaNote
+
+@enduml

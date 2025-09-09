@@ -19,10 +19,9 @@ public class JsonAgainstSchemaValidator {
     final ObjectMapper mapper = new ObjectMapper();
 
     public void validate(String schemaFileName, String... jsonFileNames) {
-        JsonSchema schema = null;
         String jsonFile = null;
         try {
-            schema = getJsonSchema("/" +schemaFileName);
+            JsonSchema schema = getJsonSchema("/" + schemaFileName);
 
             // Try to validate a valid JSON instance
             for (String jsonFileName : jsonFileNames) {

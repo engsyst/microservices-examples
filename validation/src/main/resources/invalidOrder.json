@@ -1,0 +1,8 @@
+{
+  "id": "one",
+  "menuItemIds": [],
+  "totalPrice": 0.00,
+  "deliveryAddress": "",
+  "orderStatus": "UNKNOWN",
+  "paymentId": null
+}

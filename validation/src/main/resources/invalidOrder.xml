@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<o:orders xmlns:o="http://nure.ua/it/microservice"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://nure.ua/it/microservice order-schema.xsd">
+    <o:order id="1">
+        <o:menuItemIds>
+            <!-- <o:menuItemIds>9</o:menuItemIds>
+            <o:menuItemIds>1</o:menuItemIds> -->
+        </o:menuItemIds>
+        <o:totalPrice>23.48</o:totalPrice>
+        <o:deliveryAddress>do not remember</o:deliveryAddress>
+        <o:orderStatus>PAID</o:orderStatus>
+        <o:paymentId>1</o:paymentId>
+    </o:order>
+    <o:order id="2">
+        <o:menuItemIds>
+            <o:menuItemIds>9</o:menuItemIds>
+            <o:menuItemIds>2</o:menuItemIds>
+        </o:menuItemIds>
+        <o:totalPrice>22.48</o:totalPrice>
+        <o:deliveryAddress>do not remember</o:deliveryAddress>
+        <o:orderStatus>PENDING</o:orderStatus>
+        <!-- <o:paymentId>1</o:paymentId> -->
+    </o:order>
+</o:orders>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://nure.ua/it/microservice"
+           targetNamespace="http://nure.ua/it/microservice"
+           elementFormDefault="qualified">
+
+    <!-- Schema for MenuItem class (assuming it's a separate entity) -->
+    <xs:element name="menuItem" type="tns:MenuItemType"/>
+    <xs:complexType name="MenuItemType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:token"/>
+            <xs:element name="price">
+                <xs:simpleType>
+                    <xs:restriction base="xs:decimal">
+                        <xs:minExclusive value="0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Schema for Restaurant class -->
+    <xs:element name="restaurant" type="tns:RestaurantType"/>
+    <xs:complexType name="RestaurantType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="address" type="xs:string"/>
+            <xs:element name="isOpen" type="xs:boolean"/>
+            <xs:element name="menuItems" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:menuItem" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:long"/>
+    </xs:complexType>
+</xs:schema>

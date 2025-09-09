@@ -1,0 +1,8 @@
+{
+  "id": 1,
+  "menuItemIds": [101, 102],
+  "totalPrice": 25.50,
+  "deliveryAddress": "123 Main St, Anytown",
+  "orderStatus": "PENDING",
+  "paymentId": 501
+}

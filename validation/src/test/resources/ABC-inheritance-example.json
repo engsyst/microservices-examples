@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Combined Schema for Classes A and C",
+  "description": "This schema defines the validation rules for objects corresponding to classes A and C, which inherit from a base class B.",
+  "type": "object",
+  "definitions": {
+    "B": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name property must be a string with no leading/trailing whitespace and only a single space between words.",
+          "type": "string",
+          "pattern": "^\\S+(?:\\s\\S+)*$"
+        },
+        "description": {
+          "description": "The description property can be a string or null.",
+          "type": ["string", "null"]
+        }
+      },
+      "required": ["name"]
+    },
+    "A": {
+      "description": "Schema for class A, which extends B and adds a price.",
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/B" }
+      ],
+      "properties": {
+        "price": {
+          "description": "The price must be a number greater than or equal to 0.0.",
+          "type": "number",
+          "minimum": 0.0
+        }
+      },
+      "required": ["price"]
+    },
+    "C": {
+      "description": "Schema for class C, which extends B and adds amount and availability.",
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/B" }
+      ],
+      "properties": {
+        "available": {
+          "type": "boolean",
+          "description": "The 'available' property is a boolean."
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The 'amount' property must be an integer."
+        }
+      },
+      "required": ["available", "amount"],
+      "if": {
+        "properties": {
+          "available": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "amount": {
+            "const": 0,
+            "description": "When 'available' is true, 'amount' must be 0."
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "amount": {
+            "minimum": 1,
+            "description": "When 'available' is false, 'amount' must be at least 1."
+          }
+        }
+      }
+    }
+  }
+}

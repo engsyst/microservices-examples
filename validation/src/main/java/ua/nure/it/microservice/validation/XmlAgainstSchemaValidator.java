@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
-import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -21,7 +20,7 @@ import java.net.URL;
 public class XmlAgainstSchemaValidator {
 	
 	@Value("${xml.schema.version:http://www.w3.org/2001/XMLSchema}")
-	String xmlSchemaVerison;
+	String xmlSchemaVersion;
 
     public void validate(String schemaFileName, String... xmlFileNames) {
 
@@ -43,7 +42,7 @@ public class XmlAgainstSchemaValidator {
 
     private Schema getSchema(String schemaFileName) throws SAXException {
         // obtain schema factory
-        SchemaFactory sf = SchemaFactory.newInstance(xmlSchemaVerison);
+        SchemaFactory sf = SchemaFactory.newInstance(xmlSchemaVersion);
 //        SchemaFactory sf = SchemaFactory.newInstance("http://www.w3.org/XML/XMLSchema/v1.1");
 
         // obtain schema

@@ -1,0 +1,19 @@
+{
+  "library": "restclient",
+  "interfaceOnly": true,
+  "useBeanValidation": true,
+
+  "comment_useJakartaEe": "// uses Jakarta instead of javax",
+  "useJakartaEe": true,
+  "useSpringBoot3": true,
+  "generateConstructorWithAllArgs": true,
+
+  "comment_useResponseEntity": "// generates functions results in format Response<YourEntity>",
+  "useResponseEntity": false,
+
+  "comment_reactive": "// if true will use WebFlux",
+  "reactive": false,
+
+  "dateLibrary": "java8-localdatetime",
+  "withXml": true
+}

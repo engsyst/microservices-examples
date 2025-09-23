@@ -29,7 +29,7 @@ import java.net.URI;
 @Slf4j
 public class OrderController {
     private final OrderService orderService;
-//    private final PaymentClientService paymentClientService;
+    private final PaymentClientService paymentClientService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Page<OrderDto>> getAllOrders(
@@ -66,26 +66,26 @@ public class OrderController {
     }
 
 
-//    @PostMapping(
-//            path = "/{id}/pay",
-//            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
-//    )
-//    public Mono<ResponseEntity<OrderDto>> payOrder(@PathVariable Long id) {
-//        Order order = orderService.getOrderById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Order ID " + id + " was not found."));
-//        PayOrderRequestDto orderDto = PayOrderRequestDto.of(order);
-//        return paymentClientService.payOrder(id, orderDto)
-//                .flatMap(paymentDto -> {
-//                    if (!"SUCCESS".equals(paymentDto.getPaymentStatus())) {
-//                        return Mono.error(new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
-//                                "Probably Payment Service is unavailable, try again later"));
-//                    }
-//                    order.setOrderStatus(OrderStatus.PAID);
-//                    order.setPaymentId(paymentDto.getId());
-//                    orderService.updateOrder(order);
-//                    return Mono.just(ResponseEntity.ok().body(OrderDto.of(order)));
-//                });
-//    }
+    @PostMapping(
+            path = "/{id}/pay",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public Mono<ResponseEntity<OrderDto>> payOrder(@PathVariable Long id) {
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order ID " + id + " was not found."));
+        PayOrderRequestDto orderDto = PayOrderRequestDto.of(order);
+        return paymentClientService.payOrder(id, orderDto)
+                .flatMap(paymentDto -> {
+                    if (!"SUCCESS".equals(paymentDto.getPaymentStatus())) {
+                        return Mono.error(new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
+                                "Probably Payment Service is unavailable, try again later"));
+                    }
+                    order.setOrderStatus(OrderStatus.PAID);
+                    order.setPaymentId(paymentDto.getId());
+                    orderService.updateOrder(order);
+                    return Mono.just(ResponseEntity.ok().body(OrderDto.of(order)));
+                });
+    }
 
 //    @PutMapping(
 //            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},

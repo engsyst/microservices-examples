@@ -65,23 +65,23 @@ public class OrderServiceClient implements CommandLineRunner {
         }
 
         // Pay order
-//        OrderDto paidOrder1 = null;
-//        try {
-//            paidOrder1 = Optional.ofNullable(client
-//                            .payOrder(order1.getId()))
-//                    .orElseThrow(() -> {
-//                        log.error("not found");
-//                        return new RuntimeException("not found");
-//                    });
-//            System.out.println(paidOrder1);
-//        } catch (RuntimeException e) {
-//            System.err.println(e.getMessage());
-//        }
+        OrderDto paidOrder1 = null;
+        try {
+            paidOrder1 = Optional.ofNullable(client
+                            .payOrder(order1.getId()))
+                    .orElseThrow(() -> {
+                        log.error("not found");
+                        return new RuntimeException("not found");
+                    });
+            System.out.println(paidOrder1);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+        }
 
         // Get last paid order
-//        OrderDto lastPaidOrder = client.getOrderById(paidOrder1.getId());
-//        System.out.printf("Last paid order: %s%n", lastPaidOrder);
-//        OrderDto secondlyPaidOrder = client.getOrderById(paidOrder1.getId());
-//        System.out.printf("Secondly paid order: %s%n", secondlyPaidOrder);
+        OrderDto lastPaidOrder = client.getOrderById(paidOrder1.getId());
+        System.out.printf("Last paid order: %s%n", lastPaidOrder);
+        OrderDto secondlyPaidOrder = client.getOrderById(paidOrder1.getId());
+        System.out.printf("Secondly paid order: %s%n", secondlyPaidOrder);
     }
 }

@@ -1,6 +1,6 @@
 package ua.nure.it.microservice.orderservice.service;
 
-//import jakarta.ws.rs.ServiceUnavailableException;
+import jakarta.ws.rs.ServiceUnavailableException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://nure.ua/it/microservice"
+           targetNamespace="http://nure.ua/it/microservice"
+           elementFormDefault="qualified">
+
+    <!-- Define the simple type for the PaymentStatus enum -->
+    <xs:simpleType name="PaymentStatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PENDING"/>
+            <xs:enumeration value="SUCCESS"/>
+            <xs:enumeration value="FAILED"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Define the complex type for a single Payment entity -->
+    <xs:complexType name="PaymentType">
+        <xs:sequence>
+            <xs:element name="orderId" type="xs:long"/>
+            <xs:element name="amount" type="xs:decimal"/>
+            <xs:element name="paymentStatus" type="tns:PaymentStatusType"/>
+            <xs:element name="paymentDate" type="xs:dateTime"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:long" use="required"/>
+    </xs:complexType>
+
+    <!-- Define root elements for the schema -->
+    <xs:element name="payment" type="tns:PaymentType"/>
+    <xs:element name="payments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:payment" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

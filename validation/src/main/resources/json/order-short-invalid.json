@@ -1,8 +1,8 @@
 {
   "id": "one",
-  "menuItemIds": [],
+  "menuItemIds": [1],
   "totalPrice": 0.00,
-  "deliveryAddress": "",
+  "deliveryAddress": "rdtu",
   "orderStatus": "UNKNOWN",
   "paymentId": null
 }

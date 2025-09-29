@@ -23,9 +23,19 @@ public class ValidationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         System.out.println(environment.getProperty("spring.application.name", "Validation Application"));
-        jsonValidator.validate("order-schema.json",
-                "validOrder.json", "invalidOrder.json");
-        xmlValidator.validate("order-schema.xsd",
-                "validOrder.xml", "invalidOrder.xml");
+
+        // JSON
+        jsonValidator.validate("json/restaurant-schema.json",
+                "json/restaurant.json", "json/restaurant-invalid.json");
+        jsonValidator.validate("json/order-short-schema.json",
+                "json/order-short-valid.json", "json/order-short-invalid.json");
+        jsonValidator.validate("json/menu-item-schema.json",
+                "json/menu-item.json", "json/menu-item-invalid.json");
+
+        // XML
+        xmlValidator.validate("xml/order-schema.xsd",
+                "xml/order-short-valid.xml", "xml/order-short-invalid.xml");
+        xmlValidator.validate("xml/xml-v1-1/order-schema.xsd",
+                "xml/xml-v1-1/validOrder.xml", "xml/xml-v1-1/invalidOrder.xml");
     }
 }

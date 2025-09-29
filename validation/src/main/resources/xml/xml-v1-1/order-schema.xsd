@@ -1,0 +1,63 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://nure.ua/it/microservice"
+           targetNamespace="http://nure.ua/it/microservice"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="1.1">
+
+    <!-- Define the simple type for the OrderStatus enum -->
+    <xs:simpleType name="OrderStatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PENDING"/>
+            <xs:enumeration value="PAID"/>
+            <xs:enumeration value="DELIVERED_AND_PAID"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Define the complex type for a single Order entity -->
+    <xs:annotation>
+        <xs:documentation>
+            If you see error on the xs:complexType name="OrderType" tag below,
+            that means your IDE doesn't support XSD 1.1
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="OrderType">
+        <xs:sequence>
+            <!-- A wrapper element to hold the list of menu item IDs -->
+            <xs:element name="menuItemIds">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="menuItemIds" type="xs:long" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="totalPrice">
+                <xs:simpleType>
+                    <xs:restriction base="xs:decimal">
+                        <xs:minExclusive value="0.0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="deliveryAddress" type="xs:token"/>
+            <xs:element name="orderStatus" type="tns:OrderStatusType"/>
+            <xs:element name="paymentId" type="xs:long" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:long" use="required"/>
+        <xs:assert test="
+            (tns:orderStatus = 'PENDING' and not(tns:paymentId)) or
+            (tns:orderStatus = 'PAID' and tns:paymentId) or
+            (tns:orderStatus = 'DELIVERED_AND_PAID' and tns:paymentId)
+        "/>
+    </xs:complexType>
+
+    <!-- Define root elements for the schema -->
+    <xs:element name="order" type="tns:OrderType"/>
+    <xs:element name="orders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:order" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

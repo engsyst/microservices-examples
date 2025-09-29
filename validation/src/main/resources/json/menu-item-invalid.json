@@ -1,0 +1,11 @@
+{
+  "id": 9,
+  "name": "Піца",
+  "price": 12.50,
+  "restaurant": {
+    "id": 1,
+
+    "address": "вул. Сумська, 100",
+    "isOpen": true
+  }
+}

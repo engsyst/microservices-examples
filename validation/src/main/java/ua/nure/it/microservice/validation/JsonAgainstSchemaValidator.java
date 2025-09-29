@@ -2,8 +2,10 @@ package ua.nure.it.microservice.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +42,7 @@ public class JsonAgainstSchemaValidator {
             JsonNode jsonNode = mapper.readTree(validJsonStream);
             ProcessingReport report = schema.validate(jsonNode);
             if (!report.isSuccess()) {
-//                System.out.printf("JSON '%s' is not valid.%n", jsonFileName);
+                System.err.printf("JSON '%s' is not valid.%n", jsonFileName);
                 printReport(report);
                 // Here, you would proceed with:
                 // Order order = mapper.treeToValue(jsonNode, Order.class);
@@ -55,13 +57,21 @@ public class JsonAgainstSchemaValidator {
 //        JsonOrderValidationExample.class.getResource(schemaFileName)
         try (InputStream schemaStream = JsonAgainstSchemaValidator.class
                 .getResourceAsStream(schemaFileName)) {
+            if (schemaStream == null) {
+                System.err.printf("Fail to load schema: %s%n", schemaFileName);
+                throw new IOException("Fail to load schema: " + schemaFileName);
+            }
             JsonNode schemaNode = mapper.readTree(schemaStream);
             if (schemaNode == null) {
                 throw new ProcessingException("SchemaNode is null");
             }
 
             // Get the schema factory
-            final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+//            final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+            final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
+                    .setValidationConfiguration(ValidationConfiguration.newBuilder()
+                            .addLibrary("https://json-schema.org/draft/2020-12/schema#",
+                                    Library.newBuilder().freeze()).freeze()).freeze();
             return factory.getJsonSchema(schemaNode);
         }
     }

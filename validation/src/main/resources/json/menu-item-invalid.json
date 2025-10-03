@@ -1,6 +1,5 @@
 {
   "id": 9,
-  "name": "Піца",
   "price": 12.50,
   "restaurant": {
     "id": 1,
